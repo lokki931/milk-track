@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 export default function RegisterPage() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -12,7 +13,7 @@ export default function RegisterPage() {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("/api/register", { email, password });
+      await axios.post("/api/register", { name, email, password });
       router.push("/login");
     } catch (err) {
       console.error(err);
@@ -26,6 +27,13 @@ export default function RegisterPage() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Email"
+        required
+      />
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Name"
         required
       />
       <input

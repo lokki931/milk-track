@@ -1,9 +1,14 @@
-import NextAuth, { Session, DefaultSession } from "next-auth";
+import NextAuth, { DefaultSession } from "next-auth";
+import type { JWT } from "next-auth/jwt";
+import type { Session, User } from "next-auth";
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
     } & DefaultSession["user"];
+  }
+  interface User {
+    id: string;
   }
 }
 
@@ -12,10 +17,11 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcrypt";
 import prisma from "@/lib/prisma";
 
-const handler = NextAuth({
+export const authOptions = {
   adapter: PrismaAdapter(prisma),
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as const,
   },
   providers: [
     CredentialsProvider({
@@ -54,30 +60,24 @@ const handler = NextAuth({
     signIn: "/login",
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user) {
         token.id = user.id;
       }
       return token;
     },
-    async session({
-      session,
-      token,
-    }: {
-      session: Session;
-      token: import("next-auth/jwt").JWT;
-    }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       if (token && token.id) {
         session.user = { ...session.user, id: token.id } as {
           id: string;
           name?: string | null;
           email?: string | null;
-          image?: string | null;
         };
       }
       return session;
     },
   },
-});
+};
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
