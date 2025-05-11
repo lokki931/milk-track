@@ -11,7 +11,7 @@ export default async function ProtectedLayout({
   if (session) redirect("/dashboard");
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-[calc(100vh-7rem)] flex items-center justify-center">
       {children}
     </div>
   );
