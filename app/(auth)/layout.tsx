@@ -10,5 +10,9 @@ export default async function ProtectedLayout({
   const session = await getServerSession(authOptions);
   if (session) redirect("/dashboard");
 
-  return <>{children}</>;
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      {children}
+    </div>
+  );
 }
