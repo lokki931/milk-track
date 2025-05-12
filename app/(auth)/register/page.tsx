@@ -40,7 +40,7 @@ export default function RegisterPage() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-4 max-w-xs w-full"
+      className="space-y-4 max-w-xs w-full p-4 rounded-b-md shadow-md"
     >
       <h1 className="text-2xl font-bold text-center">Register</h1>
       <div className="flex flex-col">
