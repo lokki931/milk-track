@@ -6,7 +6,7 @@ import { Milk, BarChart, ShieldCheck } from "lucide-react";
 export default function HomePage() {
   return (
     <div className="flex items-center justify-center">
-      <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div className="relative w-full h-72 md:h-[450px]">
           <Image
             src="/farm.jpg"
