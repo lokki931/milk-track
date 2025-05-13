@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"; // adjust path
 import { redirect } from "next/navigation";
+import { MilkRecordProvider } from "@/context/MilkRecordContext";
 
 export default async function ProtectedLayout({
   children,
@@ -10,5 +11,9 @@ export default async function ProtectedLayout({
   const session = await getServerSession(authOptions);
   if (!session) redirect("/login");
 
-  return <>{children}</>;
+  return (
+    <>
+      <MilkRecordProvider>{children}</MilkRecordProvider>
+    </>
+  );
 }
