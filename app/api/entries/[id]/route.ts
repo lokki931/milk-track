@@ -1,19 +1,18 @@
-import prisma from "@/lib/prisma";
+import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import prisma from "@/lib/prisma";
 
-export const PUT = async (
+export async function PUT(
   req: NextRequest,
-  context: { params: { id: string } }
-) => {
+  { params }: { params: { id: string } }
+) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  const { id } = context.params;
+  const { id } = params;
   const body = await req.json();
 
   try {
@@ -32,18 +31,18 @@ export const PUT = async (
     console.error("Failed to update:", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
-};
+}
 
-export const DELETE = async (
+export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
-) => {
+  { params }: { params: { id: string } }
+) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  const { id } = context.params;
+  const { id } = params;
 
   try {
     await prisma.entry.delete({
@@ -55,4 +54,4 @@ export const DELETE = async (
     console.error("Failed to delete entry:", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
-};
+}
