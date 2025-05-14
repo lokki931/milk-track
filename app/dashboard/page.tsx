@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { Droplets, Percent, Wallet, Plus } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MilkRecord, useMilkRecords } from "@/context/MilkRecordContext";
 import { AddRecord } from "./_components/add-record";
 import { EditRecord } from "./_components/edit-record";
@@ -29,23 +29,34 @@ export default function DashboardPage() {
     isOpen: false,
     record: null,
   });
+  // IS LOADING
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // Simulate a 1 second loading time
+    return () => clearTimeout(timer);
+  }, []);
 
   const [page, setPage] = useState(1);
 
-  const months = [
-    { value: "01", label: "January" },
-    { value: "02", label: "February" },
-    { value: "03", label: "March" },
-    { value: "04", label: "April" },
-    { value: "05", label: "May" },
-    { value: "06", label: "June" },
-    { value: "07", label: "July" },
-    { value: "08", label: "August" },
-    { value: "09", label: "September" },
-    { value: "10", label: "October" },
-    { value: "11", label: "November" },
-    { value: "12", label: "December" },
-  ];
+  const months = useMemo(
+    () => [
+      { value: "01", label: "January" },
+      { value: "02", label: "February" },
+      { value: "03", label: "March" },
+      { value: "04", label: "April" },
+      { value: "05", label: "May" },
+      { value: "06", label: "June" },
+      { value: "07", label: "July" },
+      { value: "08", label: "August" },
+      { value: "09", label: "September" },
+      { value: "10", label: "October" },
+      { value: "11", label: "November" },
+      { value: "12", label: "December" },
+    ],
+    []
+  );
 
   // Витягуємо доступні роки з даних
   const years = Array.from(
@@ -112,6 +123,32 @@ export default function DashboardPage() {
   const { data: session } = useSession();
 
   if (!session) return null;
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <svg
+          className="animate-spin h-10 w-10 text-blue-500"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            className="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            fill="none"
+            strokeWidth="4"
+            stroke="currentColor"
+          />
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 1 1 16 0A8 8 0 0 1 4 12zm2.5 0a5.5 5.5 0 1 0 11 0A5.5 5.5 0 0 0 6.5 12z"
+          />
+        </svg>
+      </div>
+    );
+  }
 
   return (
     <main className="min-h-screen px-6 py-10 bg-white">
