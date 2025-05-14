@@ -1,20 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
-// PUT handler
 export async function PUT(
   request: NextRequest,
-  context: { params: Record<string, string> }
+  context: { params: Promise<Record<string, string>> }
 ) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
+  const { id } = await context.params;
   const body = await request.json();
-  const id = context.params.id;
 
   try {
     const updated = await prisma.entry.update({
@@ -34,23 +33,19 @@ export async function PUT(
   }
 }
 
-// DELETE handler
 export async function DELETE(
   request: NextRequest,
-  context: { params: Record<string, string> }
+  context: { params: Promise<Record<string, string>> }
 ) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  const id = context.params.id;
+  const { id } = await context.params;
 
   try {
-    await prisma.entry.delete({
-      where: { id },
-    });
-
+    await prisma.entry.delete({ where: { id } });
     return new NextResponse("Deleted successfully", { status: 200 });
   } catch (error) {
     console.error("Delete error:", error);
