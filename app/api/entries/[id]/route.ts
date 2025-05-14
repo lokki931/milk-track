@@ -3,20 +3,22 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
+// PUT handler
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } }
-): Promise<NextResponse> {
+  context: { params: Record<string, string> }
+) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
   const body = await request.json();
+  const id = context.params.id;
 
   try {
     const updated = await prisma.entry.update({
-      where: { id: context.params.id },
+      where: { id },
       data: {
         date: new Date(body.date),
         liters: body.liters,
@@ -32,18 +34,21 @@ export async function PUT(
   }
 }
 
+// DELETE handler
 export async function DELETE(
   request: NextRequest,
-  context: { params: { id: string } }
-): Promise<NextResponse> {
+  context: { params: Record<string, string> }
+) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
+  const id = context.params.id;
+
   try {
     await prisma.entry.delete({
-      where: { id: context.params.id },
+      where: { id },
     });
 
     return new NextResponse("Deleted successfully", { status: 200 });
