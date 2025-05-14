@@ -1,5 +1,11 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import {
+  fetchAllRecords,
+  createRecord,
+  updateRecordById,
+  deleteRecordById,
+} from "@/lib/api";
 
 export type MilkRecord = {
   id: string;
@@ -29,8 +35,7 @@ export const MilkRecordProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const fetchRecords = async () => {
     try {
-      const res = await fetch("/api/entries");
-      const data = await res.json();
+      const data = await fetchAllRecords();
       setRecords(data);
     } catch (error) {
       console.error("Failed to fetch records:", error);
@@ -39,53 +44,33 @@ export const MilkRecordProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const addRecord = async (entry: Omit<MilkRecord, "id">) => {
     try {
-      const res = await fetch("/api/entries", {
-        method: "POST",
-        body: JSON.stringify(entry),
-        headers: { "Content-Type": "application/json" },
-      });
-      const newEntry = await res.json();
+      const newEntry = await createRecord(entry);
       setRecords((prev) => [...prev, newEntry]);
     } catch (error) {
       console.error("Failed to add record:", error);
     }
   };
+
   const updateRecord = async (id: string, updated: MilkRecord) => {
     try {
-      const res = await fetch(`/api/entries/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updated),
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to update record");
-      }
-
-      const updatedRecord = await res.json();
+      const updatedRecord = await updateRecordById(id, updated);
       setRecords((prev) =>
-        prev.map((r) =>
-          r.id === updatedRecord.id ? { ...r, ...updatedRecord } : r
-        )
+        prev.map((r) => (r.id === id ? { ...r, ...updatedRecord } : r))
       );
     } catch (err) {
       console.error("Error updating record:", err);
     }
   };
+
   const deleteRecord = async (id: string) => {
     try {
-      await fetch(`/api/entries/${id}`, {
-        method: "DELETE",
-      });
-
-      // Видаляємо зі стейту після успішного видалення з бекенду
+      await deleteRecordById(id);
       setRecords((prev) => prev.filter((record) => record.id !== id));
     } catch (error) {
       console.error("Failed to delete record:", error);
     }
   };
+
   useEffect(() => {
     fetchRecords();
   }, []);
@@ -108,7 +93,8 @@ export const MilkRecordProvider: React.FC<{ children: React.ReactNode }> = ({
 
 export const useMilkRecords = () => {
   const context = useContext(MilkRecordContext);
-  if (!context)
+  if (!context) {
     throw new Error("useMilkRecords must be used within MilkRecordProvider");
+  }
   return context;
 };
