@@ -36,7 +36,7 @@ This is a web application that allows farmers to track daily milk production, fa
 ### 1. Clone the repository
 
 `````bash
-git clone https://github.com/lokki931/milk-tracker.git
+git clone https://github.com/lokki931/milk-track.git
 cd milk-tracker
 ````
 
