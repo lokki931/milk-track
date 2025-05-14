@@ -33,32 +33,28 @@ This is a web application that allows farmers to track daily milk production, fa
 
 ## 🚀 Getting Started
 
-### 1. Clone the repository
+## ⚙️ How to Run Locally
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/lokki931/milk-track.git
+2. Navigate into the project directory:
+   ```bash
+   cd milk-tracker
+3. Install dependencies:
+   ```bash
+   npm install
+4. Set up environment variables
+   Create a .env file based on .env.example and configure:
+   ```bash
+   DATABASE_URL="file:./dev.db"
+   NEXTAUTH_SECRET=your_secret
+   NEXTAUTH_URL=http://localhost:3000
 
-`````bash
-git clone https://github.com/lokki931/milk-track.git
-cd milk-tracker
-
-### 2. Install dependencies
-
-````bash
-npm install
-
-### 3. Set up environment variables
-
-Create a .env file based on .env.example and configure:
-
-DATABASE_URL="file:./dev.db"
-NEXTAUTH_SECRET=your_secret
-NEXTAUTH_URL=http://localhost:3000
-
-### 4. Run Prisma migrations
-
-````bash
-npx prisma migrate dev
-
-### 5. Start the development server
-
-````bash
-npm run dev
+5. Run Prisma migrations
+   ```bash
+    npx prisma migrate dev
+6. Start the development server:
+   ```bash
+   npm run dev
+...
 
