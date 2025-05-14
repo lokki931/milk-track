@@ -2,9 +2,10 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export const PUT = async (
-  req: Request,
+  req: NextRequest,
   context: { params: { id: string } }
 ) => {
   const session = await getServerSession(authOptions);
@@ -12,7 +13,7 @@ export const PUT = async (
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  const { id } = await context.params;
+  const { id } = context.params;
   const body = await req.json();
 
   try {
@@ -34,7 +35,7 @@ export const PUT = async (
 };
 
 export const DELETE = async (
-  req: Request,
+  req: NextRequest,
   context: { params: { id: string } }
 ) => {
   const session = await getServerSession(authOptions);
@@ -42,7 +43,7 @@ export const DELETE = async (
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  const { id } = await context.params;
+  const { id } = context.params;
 
   try {
     await prisma.entry.delete({
