@@ -28,7 +28,7 @@ export const EditRecord: React.FC<EditRecordProps> = ({
   isOpen,
   onClose,
 }) => {
-  const { setRecords } = useMilkRecords();
+  const { updateRecord } = useMilkRecords();
   const {
     register,
     handleSubmit,
@@ -46,7 +46,7 @@ export const EditRecord: React.FC<EditRecordProps> = ({
 
   useEffect(() => {
     reset({
-      date: record.date,
+      date: new Date(record.date).toISOString().split("T")[0],
       liters: record.liters,
       fat: record.fat,
       price: record.price,
@@ -61,30 +61,9 @@ export const EditRecord: React.FC<EditRecordProps> = ({
       fat: parseFloat(data.fat.toFixed(1)),
       price: data.price,
     };
+    await updateRecord(record.id, updated);
 
-    try {
-      const res = await fetch(`/api/entries/${record.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updated),
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to update record");
-      }
-
-      const updatedRecord = await res.json();
-      setRecords((prev) =>
-        prev.map((r) =>
-          r.id === updatedRecord.id ? { ...r, ...updatedRecord } : r
-        )
-      );
-      onClose();
-    } catch (err) {
-      console.error("Error updating record:", err);
-    }
+    onClose();
   };
 
   if (!isOpen || !record) return null;
