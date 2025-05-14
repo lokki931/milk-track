@@ -24,7 +24,7 @@ This is a web application that allows farmers to track daily milk production, fa
 - **Framework**: Next.js 15 (App Router)
 - **Styling**: Tailwind CSS
 - **State Management**: React Context API
-- **Database**: SQLite
+- **Database**: PostgreSQL
 - **ORM**: Prisma
 - **Auth**: NextAuth.js
 - **Validation**: Zod + React Hook Form
@@ -34,27 +34,35 @@ This is a web application that allows farmers to track daily milk production, fa
 ## 🚀 Getting Started
 
 ## ⚙️ How to Run Locally
+
 1. Clone the repository:
    ```bash
    git clone https://github.com/lokki931/milk-track.git
+   ```
 2. Navigate into the project directory:
    ```bash
    cd milk-tracker
+   ```
 3. Install dependencies:
    ```bash
    npm install
+   ```
 4. Set up environment variables
    Create a .env file based on .env.example and configure:
+
    ```bash
    DATABASE_URL="PostgreSQL"
    NEXTAUTH_SECRET=your_secret
    NEXTAUTH_URL=http://localhost:3000
 
+   ```
+
 5. Run Prisma migrations
    ```bash
     npx prisma migrate dev
+   ```
 6. Start the development server:
    ```bash
    npm run dev
-...
-
+   ...
+   ```
