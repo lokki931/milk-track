@@ -31,7 +31,7 @@ export default function LoginForm() {
       redirect: false,
     });
 
-    if (res?.ok) router.push("/dashboard");
+    if (res?.ok) router.push("/");
     else setErrSubmit("Invalid credentials");
   };
 
