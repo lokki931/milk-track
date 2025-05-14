@@ -1,27 +1,30 @@
-import NextAuth, { DefaultSession } from "next-auth";
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import bcrypt from "bcrypt";
+import prisma from "@/lib/prisma";
+import type { NextAuthOptions } from "next-auth";
+
+import type { DefaultSession, Session, User } from "next-auth";
 import type { JWT } from "next-auth/jwt";
-import type { Session, User } from "next-auth";
+
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
     } & DefaultSession["user"];
   }
+
   interface User {
     id: string;
   }
 }
 
-import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import bcrypt from "bcrypt";
-import prisma from "@/lib/prisma";
-
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy: "jwt" as const,
+    strategy: "jwt",
   },
   providers: [
     CredentialsProvider({
@@ -78,6 +81,6 @@ export const authOptions = {
     },
   },
 };
-const handler = NextAuth(authOptions);
 
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
