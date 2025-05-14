@@ -12,7 +12,7 @@ export const PUT = async (
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  const { id } = context.params;
+  const { id } = await context.params;
   const body = await req.json();
 
   try {
@@ -42,7 +42,7 @@ export const DELETE = async (
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  const { id } = context.params;
+  const { id } = await context.params;
 
   try {
     await prisma.entry.delete({
