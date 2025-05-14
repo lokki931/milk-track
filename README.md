@@ -1,6 +1,6 @@
 # 🐄 Milk Production Tracker
 
-This is a web application that allows farmers to track daily milk production, fat percentage, and calculate the estimated income based on fat-adjusted milk prices. Built with **Next.js App Router**, **React**, **Tailwind CSS**, **Prisma**, **SQLite**, and **Context API**.
+This is a web application that allows farmers to track daily milk production, fat percentage, and calculate the estimated income based on fat-adjusted milk prices. Built with **Next.js App Router**, **React**, **Tailwind CSS**, **Prisma**, **PostgreSQL**, and **Context API**.
 
 ---
 
@@ -14,7 +14,7 @@ This is a web application that allows farmers to track daily milk production, fa
   - Second half of the month
   - Full month
 - 🔐 Authentication with **NextAuth**
-- 💾 Data stored using **Prisma ORM** and **SQLite**
+- 💾 Data stored using **Prisma ORM** and **PostgreSQL**
 - 🌐 Fully responsive design
 
 ---
@@ -46,7 +46,7 @@ This is a web application that allows farmers to track daily milk production, fa
 4. Set up environment variables
    Create a .env file based on .env.example and configure:
    ```bash
-   DATABASE_URL="file:./dev.db"
+   DATABASE_URL="PostgreSQL"
    NEXTAUTH_SECRET=your_secret
    NEXTAUTH_URL=http://localhost:3000
 
