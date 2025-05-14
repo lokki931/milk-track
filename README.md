@@ -38,15 +38,13 @@ This is a web application that allows farmers to track daily milk production, fa
 `````bash
 git clone https://github.com/lokki931/milk-track.git
 cd milk-tracker
-````
 
-2. Install dependencies
+### 2. Install dependencies
 
 ````bash
 npm install
-````
 
-3. Set up environment variables
+### 3. Set up environment variables
 
 Create a .env file based on .env.example and configure:
 
@@ -54,16 +52,13 @@ DATABASE_URL="file:./dev.db"
 NEXTAUTH_SECRET=your_secret
 NEXTAUTH_URL=http://localhost:3000
 
-4. Run Prisma migrations
+### 4. Run Prisma migrations
 
 ````bash
 npx prisma migrate dev
-````
 
-5. Start the development server
+### 5. Start the development server
 
 ````bash
 npm run dev
 
-
-`````
