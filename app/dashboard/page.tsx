@@ -217,17 +217,21 @@ export default function DashboardPage() {
                   <td className="px-4 py-3">
                     {new Date(record.date).toLocaleDateString()}
                   </td>
-                  <td className="px-4 py-3">{record.liters} L</td>
-                  <td className="px-4 py-3">{record.fat}%</td>
-                  <td className="px-4 py-3">₴{record.price}</td>
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    {record.liters} L
+                  </td>
+                  <td className="px-4 py-3 whitespace-nowrap">{record.fat}%</td>
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    ₴{record.price}
+                  </td>
+                  <td className="px-4 py-3 whitespace-nowrap">
                     ₴
                     {(
                       record.liters *
                       calculatePricePerLiter(Number(record.fat), record.price)
                     ).toFixed(2)}
                   </td>
-                  <td className="px-4 py-3 flex justify-center gap-4 text-sm">
+                  <td className="px-4 py-3 whitespace-nowrap flex justify-center gap-4 text-sm">
                     <button
                       onClick={() => setEditModal({ isOpen: true, record })}
                       className="text-blue-600 text-sm hover:underline"

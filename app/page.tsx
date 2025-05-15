@@ -7,7 +7,7 @@ export default function HomePage() {
   return (
     <div className="flex items-center justify-center">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <div className="relative w-full h-72 md:h-[450px]">
+        <div className="relative w-full h-70 md:h-[400px]">
           <Image
             src="/farm.jpg"
             alt="Farm"

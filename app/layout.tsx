@@ -36,7 +36,7 @@ export default function RootLayout({
         <Providers>
           <div className="flex flex-col min-h-screen">
             <Header />
-            <main className="container m-auto p-4 shadow-md grow">
+            <main className="container m-auto p-4 shadow-md grow flex flex-col">
               {children}
             </main>
             <Footer />

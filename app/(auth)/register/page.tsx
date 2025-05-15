@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -29,7 +28,18 @@ export default function RegisterPage() {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      await axios.post("/api/register", data);
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to register");
+      }
+
       router.push("/login");
     } catch (err) {
       setErrSubmit("Registration failed");
