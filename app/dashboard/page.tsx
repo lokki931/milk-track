@@ -9,6 +9,8 @@ import { EditRecord } from "./_components/edit-record";
 import Pagination from "./_components/pagination";
 import RangeFilter from "./_components/select-range";
 import { StatCard } from "./_components/stat-card";
+import { calculatePricePerLiter } from "@/lib/utils";
+import MonthlySummaryChart from "./_components/monthly-summary-chart";
 
 const ITEMS_PER_PAGE = 7;
 
@@ -85,16 +87,16 @@ export default function DashboardPage() {
   );
   const totalPages = Math.ceil(rangeFilteredData.length / ITEMS_PER_PAGE);
 
-  function calculatePricePerLiter(fat: number, basePrice: number) {
-    if (fat < 3.5) return basePrice;
-    const baseFat = 3.5;
-    const bonusPerPoint = 0.3;
+  // function calculatePricePerLiter(fat: number, basePrice: number) {
+  //   if (fat < 3.5) return basePrice;
+  //   const baseFat = 3.5;
+  //   const bonusPerPoint = 0.3;
 
-    const fatDifference = fat - baseFat;
-    const price = basePrice + (fatDifference / 0.1) * bonusPerPoint;
+  //   const fatDifference = fat - baseFat;
+  //   const price = basePrice + (fatDifference / 0.1) * bonusPerPoint;
 
-    return Number(price.toFixed(2));
-  }
+  //   return Number(price.toFixed(2));
+  // }
 
   const totalIncome = rangeFilteredData.reduce(
     (sum, r) => sum + r.liters * calculatePricePerLiter(Number(r.fat), r.price),
@@ -279,6 +281,8 @@ export default function DashboardPage() {
           ₴{totalIncome.toFixed(2)}
         </span>
       </p>
+      {records.length > 0 && <MonthlySummaryChart />}
+
       {/* Add Record Modal */}
       {isModalOpen && (
         <AddRecord isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
